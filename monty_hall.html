@@ -59,6 +59,15 @@
 		}
 
 		
+		while(carros > 0) {
+			c = Math.floor(portas.childNodes.length * Math.random())
+			p = portas.childNodes[c]
+
+			carros -= p.premiada
+
+			p.premiada = true	
+		}
+
 		colocar_img()
 
 	}
@@ -81,7 +90,7 @@
 		while(portas.abre > 0) {
 			c = Math.floor(portas.childNodes.length * Math.random())
 			p = portas.childNodes[c]
-			console.log(c,p)
+			
 
 			if(p.id == portas.selecionada.id || p.aberta || p.premiada)
 				continue
