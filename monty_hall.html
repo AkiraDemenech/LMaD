@@ -32,6 +32,8 @@
 
 	portas = document.getElementById('portas')
 
+	
+
 	function gerar_portas (cabras, carros, abre) {
 		portas.abre = abre
 		portas.total = cabras + carros 
@@ -59,13 +61,23 @@
 		}
 
 		
-		while(carros > 0) {
-			c = Math.floor(portas.childNodes.length * Math.random())
-			p = portas.childNodes[c]
+		vazias = []
+		for(c = 0; c < portas.childNodes.length; c++)
+			if(!portas.childNodes[c].premiada)
+				vazias[vazias.length] = portas.childNodes[c]
 
-			carros -= p.premiada
+		if(vazias.length < carros)
+			carros = vazias.length
+
+		for(c = 0; c < carros; c++) {
+			c = Math.floor(vazias.length * Math.random())
+			p = vazias[c]
+			console.log(p.id,p.premiada,carros)
+
+			
 
 			p.premiada = true	
+			vazias = vazias.filter(p => !p.premiada)
 		}
 
 		colocar_img()
@@ -87,17 +99,28 @@
 	}
 	
 	function revelar_portas () {
-		while(portas.abre > 0) {
-			c = Math.floor(portas.childNodes.length * Math.random())
+		fechadas = []
+		for(c = 0; c < portas.childNodes.length; c++) {
 			p = portas.childNodes[c]
 			
 
 			if(p.id == portas.selecionada.id || p.aberta || p.premiada)
 				continue
 
+			fechadas[fechadas.length] = p
+		}
+
+		if(fechadas.length < portas.abre)
+			portas.abre = fechadas.length
+		
+		for(c = 0; c < portas.abre; c++) {
+			c = Math.floor(fechadas.length * Math.random())
+			p = fechadas[c]			
+			fechadas = fechadas.filter(q => (q.id != p.id))
+
 			mostrar(p)		
 			console.log('Há uma cabra na porta',p.id)			
-			portas.abre -= 1
+			
 		}
 
 		for(c = 0; c < portas.childNodes.length; c++) {
@@ -154,6 +177,7 @@
 	}
 
 	gerar_portas(2,1,1)
+	
 </script>
 
 	</body>
