@@ -31,8 +31,8 @@
 	}
 
 	portas = document.getElementById('portas')
-
-	
+	LARGURA_MAX = 10
+	LARGURA_MIN = 5
 
 	function gerar_portas (cabras, carros, abre) {
 		portas.abre = abre
@@ -41,15 +41,28 @@
 		portas.carros = carros 
 
 		portas.selecionada = null
-		
+		largura = portas.total
+		d = largura / 2
+		if(d > LARGURA_MAX)
+			d = LARGURA_MAX
+		else d = Math.floor(d)
+		for(; d >= LARGURA_MIN; d--)
+			if(largura % d == 0) {
+				largura = d
+				break
+			}
+		if(largura > LARGURA_MAX)
+			largura = LARGURA_MAX
+		else if(largura < LARGURA_MIN)
+			largura = LARGURA_MIN
+		largura = (100 / largura) + '%'
 		
 		for(c = 1; c <= portas.total; c++) {
 			const p = document.createElement('img')
 			portas.appendChild(p)
 			
 			p.id = c			
-			p.style.width = (100 / (portas.total + 2)) + '%'
-			
+			p.style.width = largura
 			
 			p.onclick = () => {
 				abrir_porta(p)
@@ -60,7 +73,6 @@
 			
 		}
 
-		
 		vazias = []
 		for(c = 0; c < portas.childNodes.length; c++)
 			if(!portas.childNodes[c].premiada)
@@ -74,7 +86,6 @@
 			p = vazias[c]
 			console.log(p.id,p.premiada,carros)
 
-			
 			carros -= 1
 
 			p.premiada = true	
@@ -103,7 +114,6 @@
 		fechadas = []
 		for(c = 0; c < portas.childNodes.length; c++) {
 			p = portas.childNodes[c]
-			
 
 			if(p.id == portas.selecionada.id || p.aberta || p.premiada)
 				continue
@@ -180,7 +190,7 @@
 		colocar_img()
 	}
 
-	gerar_portas(2,1,1)
+	gerar_portas(200,1,199)
 	
 </script>
 
