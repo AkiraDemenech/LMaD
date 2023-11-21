@@ -12,16 +12,13 @@
 			Vamos fazer as portas do problema de Monty Hall
 		</h1>
 
-<center id='portas'>
-	
-	
-
-</center>
+<center id='portas'></center>
 
 <script>
 	const PORTA_FECHADA = 'portas/fechada.png'
 	const PORTA_CABRA = 'portas/cabra.png'
 	const PORTA_CARRO = 'portas/carro.png'
+	
 
 	const ALT_TEXT = {
 		[PORTA_CABRA]: 'Desenho do batente verde de uma porta aberta com uma cabra marrom dentro.',
@@ -39,6 +36,7 @@
 
 		portas.selecionada = null
 		
+		
 		for(c = 1; c <= portas.total; c++) {
 			const p = document.createElement('img')
 			portas.appendChild(p)
@@ -50,21 +48,66 @@
 			
 			
 			p.onclick = () => {
-				abrir_porta(p.id)
+				abrir_porta(p)
 			}
 
+			p.premiada = false
+			p.aberta = false
+			
 		}
+
+		
+
 	}
 
-	function abrir_porta (id) {
-		console.log('Você abriu a porta',id)
+	function abrir_porta (porta) {
+		if(portas.selecionada != null) 
+			return
 
-		portas.selecionada = id
+		console.log('Você escolheu a porta',porta.id)
+		porta.onclick = manter
+
+		portas.selecionada = porta
 		revelar_portas()
 	}
 	
 	function revelar_portas () {
+		while(portas.abre > 0) {
+			c = Math.floor(portas.childNodes.length * Math.random())
+			p = portas.childNodes[c]
+			console.log(c,p)
+
+			if(p.id == portas.selecionada.id || p.aberta || p.premiada)
+				continue
+
+			console.log('Há uma cabra na porta',p.id)
+			p.aberta = true 	
+			p.onclick = undefined 
+			p.src = PORTA_CABRA
+			p.alt = ALT_TEXT[PORTA_CABRA]
+			portas.abre -= 1
+		}
+
+		for(c = 0; c < portas.childNodes.length; c++) {
+			const p = portas.childNodes[c]
+			
+			if(p.id == portas.selecionada.id || p.aberta)
+				continue
+
+			p.onclick = () => {
+				trocar_porta(p)
+			}
+		}
+	}
+
+	function manter () {
+		console.log('Você manteve sua escolha pela porta',portas.selecionada.id)
 		
+	}
+
+	function trocar_porta (porta) {
+		console.log('Você trocou pela porta',porta.id)
+
 	}
 
 	gerar_portas(2,1,1)
