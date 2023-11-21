@@ -49,7 +49,22 @@
 			p.style.width = (100 / (portas.total + 2)) + '%'
 			
 			
+			p.onclick = () => {
+				abrir_porta(p.id)
+			}
+
 		}
+	}
+
+	function abrir_porta (id) {
+		console.log('Você abriu a porta',id)
+
+		portas.selecionada = id
+		revelar_portas()
+	}
+	
+	function revelar_portas () {
+		
 	}
 
 	gerar_portas(2,1,1)
