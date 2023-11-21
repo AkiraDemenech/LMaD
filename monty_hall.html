@@ -16,17 +16,44 @@
 	
 	
 
-
-
-
 </center>
 
+<script>
+	const PORTA_FECHADA = 'portas/fechada.png'
+	const PORTA_CABRA = 'portas/cabra.png'
+	const PORTA_CARRO = 'portas/carro.png'
 
+	const ALT_TEXT = {
+		[PORTA_CABRA]: 'Desenho do batente verde de uma porta aberta com uma cabra marrom dentro.',
+		[PORTA_CARRO]: 'Desenho do batente verde de uma porta aberta com um carro vermelho dentro.',
+		[PORTA_FECHADA]: 'Desenho de uma porta verde fechada.'
+	}
+
+	portas = document.getElementById('portas')
+
+	function gerar_portas (cabras, carros, abre) {
+		portas.abre = abre
+		portas.total = cabras + carros 
+		portas.cabras = cabras 
+		portas.carros = carros 
+
+		portas.selecionada = null
 		
+		for(c = 1; c <= portas.total; c++) {
+			const p = document.createElement('img')
+			portas.appendChild(p)
+			
+			p.id = c
+			p.src = PORTA_FECHADA
+			p.alt = ALT_TEXT[PORTA_FECHADA]
+			p.style.width = (100 / (portas.total + 2)) + '%'
 			
 			
-			
+		}
+	}
 
+	gerar_portas(2,1,1)
+</script>
 
 	</body>
 </html>
