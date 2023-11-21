@@ -15,12 +15,16 @@
 <center id='portas'></center>
 
 <script>
+	const MANTER_PORTA = 'portas/manter.png'
+	const TROCAR_PORTA = 'portas/trocar.png'
 	const PORTA_FECHADA = 'portas/fechada.png'
 	const PORTA_CABRA = 'portas/cabra.png'
 	const PORTA_CARRO = 'portas/carro.png'
 	
 
 	const ALT_TEXT = {
+		[TROCAR_PORTA]: 'Desenho de uma porta verde fechada escrito "ou quer trocar?" em Comic Sans roxa.',
+		[MANTER_PORTA]: 'Desenho de uma porta verde fechada escrito "quer manter?" em Comic Sans roxa.',
 		[PORTA_CABRA]: 'Desenho do batente verde de uma porta aberta com uma cabra marrom dentro.',
 		[PORTA_CARRO]: 'Desenho do batente verde de uma porta aberta com um carro vermelho dentro.',
 		[PORTA_FECHADA]: 'Desenho de uma porta verde fechada.'
@@ -65,6 +69,8 @@
 			return
 
 		console.log('Você escolheu a porta',porta.id)
+		porta.src = MANTER_PORTA
+		porta.alt = ALT_TEXT[MANTER_PORTA]
 		porta.onclick = manter
 
 		portas.selecionada = porta
@@ -94,6 +100,8 @@
 			if(p.id == portas.selecionada.id || p.aberta)
 				continue
 
+			p.src = TROCAR_PORTA
+			p.alt = ALT_TEXT[TROCAR_PORTA]	
 			p.onclick = () => {
 				trocar_porta(p)
 			}
