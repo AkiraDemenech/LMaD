@@ -69,12 +69,13 @@
 		if(vazias.length < carros)
 			carros = vazias.length
 
-		for(c = 0; c < carros; c++) {
+		while (carros > 0) {
 			c = Math.floor(vazias.length * Math.random())
 			p = vazias[c]
 			console.log(p.id,p.premiada,carros)
 
 			
+			carros -= 1
 
 			p.premiada = true	
 			vazias = vazias.filter(p => !p.premiada)
@@ -113,15 +114,18 @@
 		if(fechadas.length < portas.abre)
 			portas.abre = fechadas.length
 		
-		for(c = 0; c < portas.abre; c++) {
+		while(portas.abre > 0) {
 			c = Math.floor(fechadas.length * Math.random())
 			p = fechadas[c]			
-			fechadas = fechadas.filter(q => (q.id != p.id))
+			console.log(p,fechadas)
 
 			mostrar(p)		
-			console.log('Há uma cabra na porta',p.id)			
+			console.log('Há uma cabra na porta',p.id)
+			fechadas = fechadas.filter(q => (!q.aberta))			
 			
+			portas.abre -= 1
 		}
+		console.log(c,portas.abre,fechadas.length)
 
 		for(c = 0; c < portas.childNodes.length; c++) {
 			const p = portas.childNodes[c]
