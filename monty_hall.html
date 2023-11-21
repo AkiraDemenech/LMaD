@@ -45,9 +45,7 @@
 			const p = document.createElement('img')
 			portas.appendChild(p)
 			
-			p.id = c
-			p.src = PORTA_FECHADA
-			p.alt = ALT_TEXT[PORTA_FECHADA]
+			p.id = c			
 			p.style.width = (100 / (portas.total + 2)) + '%'
 			
 			
@@ -61,10 +59,12 @@
 		}
 
 		
+		colocar_img()
 
 	}
 
 	function abrir_porta (porta) {
+		limpar_func()
 		if(portas.selecionada != null) 
 			return
 
@@ -86,11 +86,8 @@
 			if(p.id == portas.selecionada.id || p.aberta || p.premiada)
 				continue
 
-			console.log('Há uma cabra na porta',p.id)
-			p.aberta = true 	
-			p.onclick = undefined 
-			p.src = PORTA_CABRA
-			p.alt = ALT_TEXT[PORTA_CABRA]
+			mostrar(p)		
+			console.log('Há uma cabra na porta',p.id)			
 			portas.abre -= 1
 		}
 
@@ -108,14 +105,43 @@
 		}
 	}
 
+	function limpar_func () {
+		for(c = 0; c < portas.childNodes.length; c++)
+			portas.childNodes[c].onclick = undefined
+	}
+
+	function colocar_img () {
+		for(c = 0; c < portas.childNodes.length; c++) {
+			p = portas.childNodes[c]
+			if(p.aberta)
+				continue
+			p.src = PORTA_FECHADA
+			p.alt = ALT_TEXT[PORTA_FECHADA]
+		}
+	}
+
+	function mostrar (porta) {
+		porta.src = (porta.premiada) ? PORTA_CARRO : PORTA_CABRA
+		porta.alt = ALT_TEXT[porta.src]
+		porta.aberta = true
+	}
+
 	function manter () {
 		console.log('Você manteve sua escolha pela porta',portas.selecionada.id)
+		limpar_func()
+
+		mostrar(portas.selecionada)		
+		colocar_img()
 		
+			
 	}
 
 	function trocar_porta (porta) {
 		console.log('Você trocou pela porta',porta.id)
+		limpar_func()
+		mostrar(porta)
 
+		colocar_img()
 	}
 
 	gerar_portas(2,1,1)
