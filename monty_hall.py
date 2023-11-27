@@ -1,8 +1,8 @@
 import random
-TROCA = True	# Se você troca de porta depois de Monty Hall revelar cabras
-ABERTAS = 1	# quantidade de portas (com cabras) que Monty Hall abre depois de você escolher
-CARROS = 1	# quantidade de carros (prêmios) atrás das portas 
-CABRAS = 2	# quantidade de cabras (portas sem prêmios)
+TROCA = True	# Se vocÃª troca de porta depois de Monty Hall revelar cabras
+ABERTAS = 1	# quantidade de portas (com cabras) que Monty Hall abre depois de vocÃª escolher
+CARROS = 1	# quantidade de carros (prÃªmios) atrÃ¡s das portas 
+CABRAS = 2	# quantidade de cabras (portas sem prÃªmios)
 
 def monty_hall (troca = TROCA, cabras = CABRAS, carros = CARROS, abertas = ABERTAS):
 	portas = [False] * (cabras + carros)

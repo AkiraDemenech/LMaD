@@ -14,6 +14,19 @@
 
 <center id='portas'></center>
 
+<h3>
+	Cabras: 
+		<input id='cabras' type='number' min='1' step='1' value='2'/>
+<br>
+	Carros: 
+		<input id='carros' type='number' min='1' step='1' value='1'/>
+<br>
+	Portas abertas: 
+		<input id='abre' type='number' min='1' step='1' value='1'/>
+</h3>
+
+<button onclick='gerar()'>Simular!</button>
+
 <script>
 	const MANTER_PORTA = 'portas/manter.png'
 	const TROCAR_PORTA = 'portas/trocar.png'
@@ -31,14 +44,26 @@
 	}
 
 	portas = document.getElementById('portas')
+	
+	carros = document.getElementById('carros')
+	cabras = document.getElementById('cabras')
+	abre = document.getElementById('abre')
 	LARGURA_MAX = 10
 	LARGURA_MIN = 5
 
+	function gerar () {
+		gerar_portas(parseInt(cabras.value), parseInt(carros.value), parseInt(abre.value))
+	}
+
 	function gerar_portas (cabras, carros, abre) {
+		limpar_portas()
+		
 		portas.abre = abre
 		portas.total = cabras + carros 
 		portas.cabras = cabras 
 		portas.carros = carros 
+
+		
 
 		portas.selecionada = null
 		largura = portas.total
@@ -151,6 +176,11 @@
 		}
 	}
 
+	function limpar_portas () {
+		while(portas.childNodes.length > 0)
+			portas.childNodes[0].remove()
+	}
+
 	function limpar_func () {
 		for(c = 0; c < portas.childNodes.length; c++)
 			portas.childNodes[c].onclick = undefined
@@ -190,7 +220,7 @@
 		colocar_img()
 	}
 
-	gerar_portas(200,1,199)
+	gerar()
 	
 </script>
 
