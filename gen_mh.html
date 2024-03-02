@@ -1,0 +1,63 @@
+<h1>
+	Escolha:
+</h1>
+
+<div id='portas'>
+
+</div>
+
+<h2 id='resultado'>
+
+</h2>
+
+<h3 id='instr'>
+
+</h3>
+
+<script>
+	const p = 3 // quantidade de portas 
+	const n = 1 // quantidade de prêmios 
+	const k = n // quantidade de portas escolhidas para tentar ganhar o(s) prêmio(s)
+	const a = p - n - k // quantidade de portas abertas pelo apresentador depois da primeira escolha de porta(s)
+
+	var pcabra = undefined 
+	var pcarro = undefined
+	var porta_escolhida = undefined
+	const porta_premiada = 1 + Math.floor(3 * Math.random())
+	console.log('Spoiler:', porta_premiada)
+
+	const instr = document.getElementById('instr')
+	const resposta = document.getElementById('resultado')
+	const portas = document.getElementById('portas')
+	
+
+	const cabra = 'portas/cabra.png'
+	const carro = 'portas/carro.png'
+	const fechada = 'portas/fechada.png'
+
+	const largura = (100 / (p + 2)) + '%'
+
+	function escolher (porta) {		 
+
+		console.log('Porta',porta)		
+
+
+			
+
+
+	}
+
+	for(c = 1; c <= p; c++)	{
+		const porta = new Image()
+		porta.src = fechada 
+		porta.style.width = largura 
+		porta.id = c
+		porta.alt = c + ': desenho da porta verde fechada.'
+		porta.onclick = () => {
+			escolher(porta.id)
+		}
+		portas.appendChild(porta)
+	}
+
+	
+</script>

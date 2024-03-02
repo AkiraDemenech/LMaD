@@ -1,0 +1,148 @@
+<h1>
+	Escolha uma dessas portas:
+</h1>
+
+<img 
+	src='portas/fechada.png' 
+	width='20%' 
+	id='1'
+	alt='1: desenho da porta verde fechada.' 
+	onclick='escolher(1)'
+/>
+
+<img 
+	src='portas/fechada.png' 
+	width='20%' 
+	id='2'
+	alt='2: desenho da porta verde fechada.' 
+	onclick='escolher(2)'
+/>
+
+<img 
+	src='portas/fechada.png' 
+	width='20%' 
+	id='3'
+	alt='3: desenho da porta verde fechada.' 
+	onclick='escolher(3)'
+/>
+
+<h2 id='resultado'>
+
+</h2>
+
+<h3 id='instr'>
+
+</h3>
+
+<script>
+	var pcabra = undefined 
+	var pcarro = undefined
+	var porta_escolhida = undefined
+	const porta_premiada = 1 + Math.floor(3 * Math.random())
+	console.log('Spoiler:', porta_premiada)
+
+	const instr = document.getElementById('instr')
+	const resposta = document.getElementById('resultado')
+
+	const p1 = document.getElementById(1)
+	const p2 = document.getElementById(2)
+	const p3 = document.getElementById(3)
+
+	const cabra = 'portas/cabra.png'
+	const carro = 'portas/carro.png'
+
+	
+
+	function escolher (porta) {		 
+
+		console.log('Porta',porta)		
+
+		if(porta_escolhida) {
+			pcarro.onclick = console.log 
+			pcabra.onclick = console.log 
+
+			if(porta_escolhida == porta)
+				op = 'Ficou: '
+			else op = 'Trocou: '
+
+			if(porta_premiada == porta) {
+				pcarro.src = carro
+				res = 'Parabéns! Você ganhou o prêmio atrás da porta '
+			} else {
+				pcabra.src = cabra 
+				res = 'Porta errada. O prêmio estava na porta '
+			}				
+
+			resposta.appendChild(document.createTextNode(op + res + porta_premiada))
+			return 
+		}	
+
+		porta_escolhida = porta
+			
+		if(porta_premiada == 1) {
+			pcarro = p1
+
+			if(porta_escolhida == 1) { 
+				if(Math.random() < 0.5) {
+					porta_aberta = p2
+					pcabra = p3 
+				} else {
+					porta_aberta = p3
+					pcabra = p2
+				}
+			} else if(porta_escolhida == 2) { 
+				pcabra = p2
+				porta_aberta = p3
+			} else if(porta_escolhida == 3) {					
+				pcabra = p3
+				porta_aberta = p2
+			}
+				 
+		} else if(porta_premiada == 2) {
+			pcarro = p2
+
+			if(porta_escolhida == 1) { 
+				pcabra = p1
+				porta_aberta = p3
+			} else if(porta_escolhida == 2) { 
+				if(Math.random() < 0.5) {
+					porta_aberta = p1
+					pcabra = p3 
+				} else {
+					porta_aberta = p3
+					pcabra = p1
+				}
+			} else if(porta_escolhida == 3) {					
+				pcabra = p3
+				porta_aberta = p1
+			}
+				 
+		} else if(porta_premiada == 3) {
+			pcarro = p3
+
+			if(porta_escolhida == 1) { 
+				pcabra = p1
+				porta_aberta = p2
+			} else if(porta_escolhida == 2) { 
+				pcabra = p2
+				porta_aberta = p1
+			} else if(porta_escolhida == 3) {					
+				if(Math.random() < 0.5) {
+					porta_aberta = p1
+					pcabra = p2 
+				} else {
+					porta_aberta = p2
+					pcabra = p1
+				}
+			} 
+		}
+
+		porta_aberta.src = cabra
+		porta_aberta.onclick = console.log 
+
+		instr.appendChild(document.createTextNode('A porta ' + porta_aberta.id + ' está aberta e o prêmio não está atrás dela.'))
+			
+		
+
+	}
+</script>
