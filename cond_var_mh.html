@@ -62,14 +62,16 @@
 			pcabra.onclick = console.log 
 
 			if(porta_escolhida == porta)
-				op = 'Ficou: '
+				op = 'Manteve: '
 			else op = 'Trocou: '
 
 			if(porta_premiada == porta) {
 				pcarro.src = carro
+				pcarro.alt = pcarro.id + ': desenho da porta verde aberta, com um carro de prêmio!'
 				res = 'Parabéns! Você ganhou o prêmio atrás da porta '
 			} else {
 				pcabra.src = cabra 
+				pcabra.alt = pcabra.id + ': desenho da porta verde aberta, com uma cabra, que não é o prêmio'
 				res = 'Porta errada. O prêmio estava na porta '
 			}				
 
@@ -138,6 +140,7 @@
 		}
 
 		porta_aberta.src = cabra
+		porta_aberta.alt = porta_aberta.id + ': desenho da porta verde aberta, com uma cabra do outro lado.'
 		porta_aberta.onclick = console.log 
 
 		instr.appendChild(document.createTextNode('A porta ' + porta_aberta.id + ' está aberta e o prêmio não está atrás dela.'))

@@ -1,63 +1,242 @@
 <h1>
-	Escolha:
+	Escolha uma dessas portas:
 </h1>
 
 <div id='portas'>
 
+	Carregando portas....
 </div>
 
 <h2 id='resultado'>
 
+	Este texto não deveria aparecer no navegador.
 </h2>
 
 <h3 id='instr'>
 
+	Aguardando....
 </h3>
 
+<h4 id='param'>
+	Carregando parâmetros....
+</h4>
+
+<p>
+	p = 
+	<input id='p' 
+		placeholder='Portas' 
+		type='number' 
+		min='0' step='1' 
+		onchange='carregar_p()' />
+</p>
+
+<p>
+	n = 
+	<input id='n' 
+		placeholder='Prêmios' 
+		type='number' 
+		min='0' step='1' 
+		onchange='carregar_n()' />
+</p>
+
+<p>
+	m = 
+	<input id='m' 
+		placeholder='Portas abertas pelo apresentador' 
+		type='number' 
+		min='0' step='1' 
+		onchange='carregar_m()' />
+</p>
+
 <script>
-	const p = 3 // quantidade de portas 
-	const n = 1 // quantidade de prêmios 
-	const k = n // quantidade de portas escolhidas para tentar ganhar o(s) prêmio(s)
-	const a = p - n - k // quantidade de portas abertas pelo apresentador depois da primeira escolha de porta(s)
+	var p = 3 // quantidade de portas 
+	var n = 1 // quantidade de prêmios 
+	var m = p - n - 1 // quantidade de portas abertas pelo apresentador depois da primeira escolha de porta(s)
 
-	var pcabra = undefined 
-	var pcarro = undefined
-	var porta_escolhida = undefined
-	const porta_premiada = 1 + Math.floor(3 * Math.random())
-	console.log('Spoiler:', porta_premiada)
+	var porta_escolhida = undefined	
+	 
+	const portas_vazias = []
+	const portas_premiadas = []		
 
+	const param = document.getElementById('param')
 	const instr = document.getElementById('instr')
 	const resposta = document.getElementById('resultado')
 	const portas = document.getElementById('portas')
+		
+	const var_p = document.getElementById('p')
+	const var_n = document.getElementById('n')
+	const var_m = document.getElementById('m')
+
+	const img_dir = 'portas/'
+	const img_ext = '.png'
+
+	const cabra = img_dir + 'cabra' + img_ext
+	const carro = img_dir + 'carro' + img_ext
+	const fechada = img_dir + 'fechada' + img_ext
+
 	
 
-	const cabra = 'portas/cabra.png'
-	const carro = 'portas/carro.png'
-	const fechada = 'portas/fechada.png'
+	const largura = (p > 8)?('10%'):(100 / (p + 2) + '%')
+	
+	function limpar (elementos) {
+		while (elementos.length > 0)
+			elementos[0].remove()
+	}
 
-	const largura = (100 / (p + 2)) + '%'
+	function remover (lista, valor) {
+		var i = lista.length
+		while (i >= 0) {
+			lista.splice(i,1)
+			i = lista.indexOf(valor)
+		}		  
+	}
 
 	function escolher (porta) {		 
 
 		console.log('Porta',porta)		
 
 
+		if (porta_escolhida == undefined) {
+			// primeira escolha 
+			porta_escolhida = porta 
+			remover(portas_vazias, porta) // se a porta tiver uma cabra, remove da lista para evitar que seja aberta.			 
+ 			
+			for(c = 0; c < m && portas_vazias.length > 0; c++) { // abre m portas com cabras 
+				i = Math.floor(Math.random() * portas_vazias.length)
+				id = portas_vazias[i]
+
+				remover(portas_vazias, id)
+				
+				porta_aberta = portas[id]				
+
+				porta_aberta.src = cabra 
+				porta_aberta.alt = id + ': desenho da porta verde aberta, com uma cabra do outro lado.'
+				porta_aberta.onclick = console.log
+
+				instr.appendChild(document.createTextNode('A porta ' + id + ' está aberta e o prêmio não está atrás dela.'))
+				instr.appendChild(document.createElement('br'))
+			}
+
+		} else {
+			// escolha final  
+			for(c = 0; c < portas.childNodes.length; c++)
+				portas.childNodes[c].onclick = console.log
+
+			resposta.appendChild(document.createTextNode((porta == porta_escolhida)?('Manteve: '):('Trocou: ')))	
+			
+			porta_aberta = portas[porta]
+
+			if (portas_premiadas.indexOf(porta) >= 0) {
+				porta_aberta.src = carro 
+				porta_aberta.alt = porta + ': desenho da porta verde aberta, com um carro de prêmio!'
+				res = 'Parabéns! Você ganhou o prêmio atrás da porta ' + porta 
+			} else {
+				porta_aberta.src = cabra 
+				porta_aberta.alt = porta + ': desenho da porta verde aberta, com uma cabra, que não é o prêmio'
+				res = 'Porta errada.'
+			}
+
+			resposta.appendChild(document.createTextNode(res))
+		}
 			
 
 
 	}
 
-	for(c = 1; c <= p; c++)	{
-		const porta = new Image()
-		porta.src = fechada 
-		porta.style.width = largura 
-		porta.id = c
-		porta.alt = c + ': desenho da porta verde fechada.'
-		porta.onclick = () => {
-			escolher(porta.id)
+	function carregar () {
+		porta_escolhida = undefined
+
+		limpar(portas.childNodes)
+		limpar(param.childNodes)
+		limpar(instr.childNodes)
+		limpar(resposta.childNodes)
+
+		portas_premiadas.splice(0)
+		portas_vazias.splice(0)
+
+		for(c = 1; c <= p; c++)	{
+			const porta = new Image()
+			
+			portas.appendChild(porta)
+			portas[c] = porta 
+			
+			porta.src = fechada 
+			porta.style.width = largura 
+			porta.id = c
+			porta.alt = c + ': desenho da porta verde fechada.'
+			porta.onclick = () => {
+				escolher(porta.id)
+			}
+
+			portas_vazias.unshift(porta.id)
+			
+			
+		}	 			
+
+		while (portas_premiadas.length < n) {
+			i = Math.floor(Math.random() * portas_vazias.length)
+			k = portas_vazias.splice(i, 1)[0] // remove 1 elemento a partir da posição i, recebe como lista e obtém o valor desse elemento
+			portas_premiadas.unshift(k)
 		}
-		portas.appendChild(porta)
+
+	//	portas_vazias.sort()
+		portas_premiadas.sort()	
+		
+		console.log('Spoiler:', portas_premiadas, portas_vazias)
+
+		param.appendChild(document.createTextNode('p = ' + p + ', n = ' + n + ' e m = ' + m))
+	}	
+	
+	carregar()
+	
+	// atualizar valores dos campos de entrada 
+	var_p.value = p
+	var_n.value = n
+	var_m.value = m
+	
+	var_p.valor = p
+	var_n.valor = n
+	var_m.valor = m
+
+	function carregar_p () {
+		// ler valor de entrada e atualizar variável
+		var_p.valor = parseInt(var_p.value)
+
+		calcular_m()
+		
 	}
 
-	
+	function carregar_n () {
+		// ler valor de entrada e atualizar variável
+		var_n.valor = parseInt(var_n.value)
+
+		calcular_m()
+		
+	}
+
+	function carregar_m () {
+		// ler valor de entrada e atualizar variável
+		var_m.valor = parseInt(var_m.value)
+		
+	}
+
+	function calcular_m () {
+		var_m.valor = var_p.valor - var_n.valor - 1
+		if (var_m.valor < 0)
+			var_m.valor = 0
+		var_m.value = var_m.valor // substituir valor do campo de entrada 
+	}
+
+	function recarregar () {
+		p = var_p.valor
+		n = var_n.valor
+		m = var_m.valor
+
+		carregar()
+	}
+
 </script>
+
+<button onclick='recarregar()'>
+	Recomeçar!
+</button>
