@@ -199,7 +199,11 @@
 	var_m.valor = m
 
 	function carregar_p () {
+		if (var_p.value.length <= 0) 
+			var_p.value = p 
+
 		// ler valor de entrada e atualizar variável
+		
 		var_p.valor = parseInt(var_p.value)
 
 		calcular_m()
@@ -207,6 +211,9 @@
 	}
 
 	function carregar_n () {
+		if (var_n.value.length <= 0) 
+			var_n.value = n
+
 		// ler valor de entrada e atualizar variável
 		var_n.valor = parseInt(var_n.value)
 
@@ -216,6 +223,9 @@
 
 	function carregar_m () {
 		// ler valor de entrada e atualizar variável
+		if (var_m.value.length <= 0) 
+			var_m.value = m
+
 		var_m.valor = parseInt(var_m.value)
 		
 	}
